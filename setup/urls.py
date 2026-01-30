@@ -16,12 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import home, listar, criar, fechar # Importamos a função que criamos
+from core.views import home, listar, criar, fechar
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
     path('', home),  # Deixando vazio '', a página aparece na raiz do site
-    path('listar', listar), # Página inicial lista os chamados
-    path('novo/<str:lab>/<str:problema>/<str:prioridade>/', criar), # Rota dinâmica
-    path('fechar/<int:indice>', fechar), # Rota dinâmica
+    path('listar', listar),
+
+    path('criar/<str:lab>/<str:problema>/<str:prioridade>/', criar),
+    path('fechar/<int:indice>', fechar),
 ]
