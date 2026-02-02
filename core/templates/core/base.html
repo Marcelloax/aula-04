@@ -3,25 +3,36 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>{% block titulo %} HelpDesk {% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HelpDesk | Home</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, #6610f2, #0d6efd);
+      color: white;
+      padding: 60px 0;
+    }
+  </style>
 </head>
 
-<body class="bg-light">
-  <nav class="navbar navbar-dark bg-dark mb-4 shadow">
+<body>
+  <header class="hero-section text-center shadow-sm">
     <div class="container">
-      <a class="navbar-brand" href="/">🛠️ HelpDesk Senac</a>
+      <h1 class="display-3 fw-bold">Hello, Django! 🚀</h1>
+      <p class="lead">Seu sistema de HelpDesk agora tem uma interface moderna.</p>
     </div>
-  </nav>
+  </header>
+  {% block conteudo %}
+  {% endblock %}
 
-  <div class="container">
-    {% block conteudo %}
-    {% endblock %}
-  </div>
-
-  <footer class="text-center py-4 mt-5 border-top">
-    <p>&copy; 2026 - Aula 06: Herança de Templates</p>
+  <footer class="text-center py-4 text-muted">
+    <small>&copy; 2026 - Curso Técnico de Desenvolvimento Web</small>
   </footer>
+
 </body>
 
 </html>

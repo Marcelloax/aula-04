@@ -1,49 +1,40 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from .models import Chamado
+from django.contrib.auth.decorators import login_required
 
 
-# Nossa lista global (Banco de Dados em memória)
-chamados = [
-    {"lab": "Lab 01", "problema": "PC lento", "prioridade": "Alta"},
-    {"lab": "Lab 02", "problema": "Impressora sem tinta", "prioridade": "Média"},
-    {"lab": "Lab 03", "problema": "Sem conexão com a internet", "prioridade": "Baixa"},
-]
-
-# Já retorna render
 def home(request):
-    return render(request, 'core/home.html')
+    return render(request, "core/home.html" ) 
 
-# Ainda retorna HttpResponse
-def novoChamado(request): 
-    # 1. Se o usuário clicou no botão de enviar (POST)
+#@login_required
+def novoChamado(request):
     if request.method == "POST":
-        # Capturamos os dados do formulário
         laboratorio = request.POST.get('laboratorio')
-        descricao = request.POST.get('descricao')
+        problema = request.POST.get('problema')
         prioridade = request.POST.get('prioridade')
-        # Salvamos na nossa "base de dados"
-        print(f"Recebido: {laboratorio}, {descricao}, {prioridade}") 
 
-        chamados.append({
-            "lab": laboratorio,
-            "problema": descricao,
-            "prioridade": prioridade
-        })
+        print("chegou um post")
+        print(f"Laboratório: {laboratorio}, Descrição: {problema}")
 
-        # 2. Redireciona de volta para a lista após salvar
+        Chamado.objects.create(laboratorio=laboratorio, problema=problema, prioridade=prioridade)
+        
+       
         return redirect('/listar')
 
-    # 3. Se o usuário apenas acessou a página (GET)
-    return render(request, 'core/novo_chamado.html')
-   
+    if request.method == "GET":
+        print("chegou um get")
+        return render(request, 'core/novo_chamado.html')
 
 # Ainda retorna HttpResponse
-def fechar(request, indice):
-    del chamados[indice]
-    
+def fechar_chamado(request, id):
+    chamado = Chamado.objects.get(id=id)
+    chamado.delete()
+    print(f"Fechando chamado {chamado.id} - {chamado.problema}")
     return HttpResponse(f"✅ Chamado removido com sucesso! <br> <a href='/listar'>Voltar</a>")
 
-
-# Já retorna render
+#@login_required
 def listar(request):
+    # Busca TODOS os registros do banco de dados
+    chamados = Chamado.objects.all() 
     return render(request, 'core/listar.html', {"chamados": chamados})

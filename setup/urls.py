@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import home, listar, novoChamado, fechar
+from core.views import home, listar, novoChamado, fechar_chamado
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +25,5 @@ urlpatterns = [
     path('listar', listar),
 
     path('novo-chamado', novoChamado),
-    path('fechar/<int:indice>', fechar),
+    path('fechar-chamado/<int:id>', fechar_chamado, name='fechar-chamado'),
 ]
