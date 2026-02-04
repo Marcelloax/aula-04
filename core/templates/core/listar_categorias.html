@@ -1,0 +1,20 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<table  class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">nome</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for categoria in categorias %}
+    <tr>
+      <th>{{ categoria.id }}</th>
+      <td>{{ categoria.nome }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

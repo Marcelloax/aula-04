@@ -16,14 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import home, listar, novoChamado, fechar
+from core.views import home, listar_chamados, novo_chamado, fechar
+from core.views import listar_categorias, nova_categoria
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    path('', home),  # Deixando vazio '', a página aparece na raiz do site
-    path('listar', listar),
 
-    path('novo-chamado', novoChamado),
-    path('fechar/<int:indice>', fechar),
+    path('', home),  # Deixando vazio '', a página aparece na raiz do site
+    path('listar-chamados', listar_chamados),
+    path('novo-chamado', novo_chamado),
+    path('fechar/<int:id>', fechar, name='fechar-chamado'),
+
+    path('listar-categorias', listar_categorias),
+    path('nova-categoria', nova_categoria)
 ]

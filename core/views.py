@@ -4,17 +4,22 @@ from django.shortcuts import render, redirect
 
 # Nossa lista global (Banco de Dados em memória)
 chamados = [
-    {"lab": "Lab 01", "problema": "PC lento", "prioridade": "Alta"},
-    {"lab": "Lab 02", "problema": "Impressora sem tinta", "prioridade": "Média"},
-    {"lab": "Lab 03", "problema": "Sem conexão com a internet", "prioridade": "Baixa"},
+    {"id": 1, "laboratorio": "Lab 01", "descricao": "PC lento", "prioridade": "Alta"},
+    {"id": 2, "laboratorio": "Lab 02", "descricao": "Impressora sem tinta", "prioridade": "Média"},
+    {"id": 3, "laboratorio": "Lab 03", "descricao": "Sem conexão com a internet", "prioridade": "Baixa"},
 ]
 
-# Já retorna render
+# Novas listas globais para categorias
+categorias = [
+    {"id": 1, "nome": "Hardware"},
+    {"id": 2, "nome": "Software"},
+    {"id": 3, "nome": "Rede"},
+]
+
 def home(request):
     return render(request, 'core/home.html')
 
-# Ainda retorna HttpResponse
-def novoChamado(request): 
+def novo_chamado(request): 
     # 1. Se o usuário clicou no botão de enviar (POST)
     if request.method == "POST":
         # Capturamos os dados do formulário
@@ -25,8 +30,9 @@ def novoChamado(request):
         print(f"Recebido: {laboratorio}, {descricao}, {prioridade}") 
 
         chamados.append({
-            "lab": laboratorio,
-            "problema": descricao,
+            "id": len(chamados) + 1,
+            "laboratorio": laboratorio,
+            "descricao": descricao,
             "prioridade": prioridade
         })
 
@@ -37,13 +43,32 @@ def novoChamado(request):
     return render(request, 'core/novo_chamado.html')
    
 
-# Ainda retorna HttpResponse
-def fechar(request, indice):
-    del chamados[indice]
+def fechar(request, id):
+    for chamado in chamados:
+        if chamado["id"] == id:
+            chamados.remove(chamado)
+            break
     
-    return HttpResponse(f"✅ Chamado removido com sucesso! <br> <a href='/listar'>Voltar</a>")
+    return redirect('/listar')
 
-
-# Já retorna render
-def listar(request):
+def listar_chamados(request):
     return render(request, 'core/listar.html', {"chamados": chamados})
+
+
+
+
+# Novas views para categorias
+
+def listar_categorias(request):
+    return render(request, 'core/listar_categorias.html', {"categorias": categorias})
+
+def nova_categoria(request):
+    if request.method == "POST":
+        nome = request.POST.get('nome')
+        categorias.append({
+            "id": len(categorias) + 1,
+            "nome": nome
+        })
+        # salvar meus dados
+        return redirect('/listar-categorias')
+    return render(request, 'core/nova_categoria.html')

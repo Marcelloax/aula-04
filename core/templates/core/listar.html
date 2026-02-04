@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+{% extends "core/base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>HelpDesk Técnico</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-
-<body class="bg-light">
-
+{% block content %}
     <div class="container py-5">
         <h1 class="text-primary mb-4">Lista de Chamados</h1>
 
@@ -18,13 +10,14 @@
                     <th>Laboratório</th>
                     <th>Problema</th>
                     <th>Prioridade</th>
+                    <th>Ação</th>
                 </tr>
             </thead>
             <tbody>
                 {% for chamado in chamados %}
                 <tr>
-                    <td>{{ chamado.lab }}</td>
-                    <td>{{ chamado.problema }}</td>
+                    <td>{{ chamado.laboratorio }}</td>
+                    <td>{{ chamado.descricao }}</td>
                     <td>
                         {% if chamado.prioridade == "Alta" %}
                             <span class="badge bg-danger">{{ chamado.prioridade }}</span>
@@ -34,13 +27,13 @@
                             <span class="badge bg-primary">{{ chamado.prioridade }}</span>
                         {% endif %}
                     </td>
+                    <td>
+                        <a href="{% url 'fechar-chamado' chamado.id %}" class="btn btn-sm btn-outline-primary"
+                         onclick="return confirm('Tem certeza que deseja apagar?')">Excluir</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+ {% endblock %}
