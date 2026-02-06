@@ -32,3 +32,21 @@ class Categoria(models.Model):
 
     def __str__(self):
         return f"{self.nome}"
+    
+class Equipamento(models.Model):
+    descricao = models.CharField(max_length=250)
+    tipo = models.CharField(max_length=50)
+    ocupado = models.BooleanField()
+
+    OPCOES_CONDICAO = [
+        ('Novo', 'Novo'),
+        ('Usado', 'Usado'),
+        ('Defeituoso', 'Defeituoso'),
+    ]
+    condicao = models.CharField(max_length=50, choices=OPCOES_CONDICAO, default='Novo')
+    
+    # Data e Hora automática no momento da criação
+    data_criacao = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.descricao} - {self.tipo}"
