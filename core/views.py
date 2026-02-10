@@ -53,3 +53,14 @@ def nova_categoria(request):
 def excluir_categoria(request, id):
     Categoria.objects.get(id=id).delete()
     return redirect('/listar-categorias')
+
+def editar_categoria(request, id):
+    categoria = Categoria.objects.get(id=id)
+
+    if request.method == "POST":
+        categoria.nome = request.POST.get('nome')
+        categoria.save()
+        return redirect('/listar-categorias')
+    
+    if request.method == "GET":
+        return render(request, 'core/editar_categoria.html', {"categoria": categoria})

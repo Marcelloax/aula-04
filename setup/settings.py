@@ -117,6 +117,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
 # No final do arquivo:
 LOGIN_URL = '/admin/login/' # Onde o usuário faz login
 LOGIN_REDIRECT_URL = '/'   # Para onde ele vai depois de logar
